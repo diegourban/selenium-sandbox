@@ -6,14 +6,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class LeiloesTest {
 
 	private WebDriver driver;
+	private UsuariosPage usuarios;
 
 	@BeforeClass
 	public static void antesDaClasse() {
@@ -23,6 +22,8 @@ public class LeiloesTest {
 	@Before
 	public void antesDoTeste() {
 		driver = new ChromeDriver();
+		usuarios = new UsuariosPage(driver);
+		usuarios.visita();
 	}
 
 	@After
@@ -32,24 +33,18 @@ public class LeiloesTest {
 
 	@Test
 	public void deveCadastrarNovoUsuario() {
-		driver.get("http://localhost:8080/usuarios/new");
+		usuarios.novo().cadastra("Diego L. Urban", "email@dominio.com.br");
 
-		// encontrando ambos elementos na pagina
-		WebElement nome = driver.findElement(By.name("usuario.nome"));
-		WebElement email = driver.findElement(By.name("usuario.email"));
+		assertTrue(usuarios.existeNaListagem("Diego L. Urban", "email@dominio.com.br"));
+	}
 
-		// digitando em cada um deles
-		nome.sendKeys("Ronaldo Luiz de Albuquerque");
-		email.sendKeys("ronaldo2009@terra.com.br");
+	@Test
+	public void naoDeveAdicionarUmUsuarioSemNome() {
+		NovoUsuarioPage form = usuarios.novo();
 
-		WebElement botaoSalvar = driver.findElement(By.id("btnSalvar"));
-		botaoSalvar.click();
+		form.cadastra("", "ronaldo2009@terra.com.br");
 
-		boolean achouNome = driver.getPageSource().contains("Ronaldo Luiz de Albuquerque");
-		boolean achouEmail = driver.getPageSource().contains("ronaldo2009@terra.com.br");
-
-		assertTrue(achouNome);
-		assertTrue(achouEmail);
+		assertTrue(form.validacaoDeNomeObrigatorio());
 	}
 
 }
