@@ -1,5 +1,6 @@
 package br.com.urban;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -45,6 +46,20 @@ public class LeiloesTest {
 		form.cadastra("", "ronaldo2009@terra.com.br");
 
 		assertTrue(form.validacaoDeNomeObrigatorio());
+	}
+	
+	@Test
+	public void deveRemoverUsuarioCadastrado() {
+		final String nome = "Para Remover";
+		final String email = "para@remover.com.br";
+		
+		usuarios.novo().cadastra(nome, email);
+		
+		assertTrue(usuarios.existeNaListagem(nome, email));
+		
+		usuarios.removeUsuarioNaPosicao(1);
+		
+		assertFalse(usuarios.existeNaListagem(nome, email));
 	}
 
 }

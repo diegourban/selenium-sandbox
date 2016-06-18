@@ -1,5 +1,6 @@
 package br.com.urban;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -25,6 +26,15 @@ public class UsuariosPage {
 		boolean achouEmail = driver.getPageSource().contains(email);
 		
 		return achouNome && achouEmail;
+	}
+	
+	public void removeUsuarioNaPosicao(int posicao) {
+		driver.findElements(By.tagName("button")).get(posicao-1).click();
+		
+		// pega o alert que está aberto
+		Alert alert = driver.switchTo().alert();
+		// confirma
+		alert.accept();
 	}
 
 }
