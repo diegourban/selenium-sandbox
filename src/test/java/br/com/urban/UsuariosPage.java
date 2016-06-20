@@ -20,6 +20,11 @@ public class UsuariosPage {
 		driver.findElement(By.linkText("Novo Usuário")).click();
 		return new NovoUsuarioPage(driver);
 	}
+	
+	public AlteraUsuarioPage altera(int posicao) {
+        driver.findElements(By.linkText("editar")).get(posicao-1).click();
+        return new AlteraUsuarioPage(driver);
+    }
 
 	public boolean existeNaListagem(String nome, String email) {
 		boolean achouNome = driver.getPageSource().contains(nome);

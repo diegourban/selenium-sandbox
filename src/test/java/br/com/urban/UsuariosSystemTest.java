@@ -23,6 +23,8 @@ public class UsuariosSystemTest {
 	@Before
 	public void antesDoTeste() {
 		driver = new ChromeDriver();
+		driver.get("http://localhost:8080/apenas-teste/limpa");
+		
 		usuarios = new UsuariosPage(driver);
 		usuarios.visita();
 	}
@@ -47,19 +49,28 @@ public class UsuariosSystemTest {
 
 		assertTrue(form.validacaoDeNomeObrigatorio());
 	}
-	
+
 	@Test
 	public void deveRemoverUsuarioCadastrado() {
 		final String nome = "Para Remover";
 		final String email = "para@remover.com.br";
-		
+
 		usuarios.novo().cadastra(nome, email);
-		
+
 		assertTrue(usuarios.existeNaListagem(nome, email));
-		
+
 		usuarios.removeUsuarioNaPosicao(1);
-		
+
 		assertFalse(usuarios.existeNaListagem(nome, email));
+	}
+
+	@Test
+	public void deveAlterarUmUsuario() {
+		usuarios.novo().cadastra("Ronaldo Luiz de Albuquerque", "ronaldo2009@terra.com.br");
+		usuarios.altera(1).para("José da Silva", "jose@silva.com");
+
+		assertFalse(usuarios.existeNaListagem("Ronaldo Luiz de Albuquerque", "ronaldo2009@terra.com.br"));
+		assertTrue(usuarios.existeNaListagem("José da Silva", "jose@silva.com"));
 	}
 
 }
