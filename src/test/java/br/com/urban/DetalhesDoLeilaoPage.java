@@ -25,14 +25,13 @@ public class DetalhesDoLeilaoPage {
 
 		driver.findElement(By.id("btnDarLance")).click();
 	}
-	
-	public boolean existeLance(String usuario, double valor) {
-		Boolean temUsuario =
-                new WebDriverWait(driver, 10)
-                    .until(ExpectedConditions
-                    .textToBePresentInElement(By.id("lancesDados"), usuario));
 
-        if(temUsuario) return driver.getPageSource().contains(String.valueOf(valor));
-        return false;
-    }
+	public boolean existeLance(String usuario, double valor) {
+		Boolean temUsuario = new WebDriverWait(driver, 10)
+				.until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.id("lancesDados")), usuario));
+
+		if (temUsuario)
+			return driver.getPageSource().contains(String.valueOf(valor));
+		return false;
+	}
 }

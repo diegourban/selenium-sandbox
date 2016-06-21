@@ -19,13 +19,13 @@ public class LeiloesPage {
 	}
 	
 	public NovoLeilaoPage novo() {
-		driver.findElement(By.linkText("Novo Leil√£o")).click();
+		driver.findElement(By.linkText("Novo Leil„o")).click();
 		return new NovoLeilaoPage(driver);
 	}
 	
 	public boolean existe(String produto, double valor, String usuario, boolean usado) {
 		return driver.getPageSource().contains(produto) && driver.getPageSource().contains(String.valueOf(valor))
-				&& driver.getPageSource().contains(usado ? "Sim" : "N√£o");
+				&& driver.getPageSource().contains(usado ? "Sim" : "N„o");
 	}
 	
 	public DetalhesDoLeilaoPage detalhes(int posicao) {
